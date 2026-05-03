@@ -4,7 +4,7 @@
 
 const {crawlPage} = require('./crawl.js')
 
-function main(){
+async function main(){
     // run with npm start "website name"
     // process.argv has args: programme name (node), the code name (main.js), the provided input arguments
     if (process.argv.length < 3){
@@ -18,7 +18,11 @@ function main(){
     const baseURL = process.argv[2]
 
     console.log(`starting crawl of ${baseURL}`)
-    crawlPage(baseURL)
+    const pages = await crawlPage(baseURL, baseURL, {})
+
+    for (const page of Object.entries(pages)){
+        console.log(page)
+    }
 }
 
 main()
