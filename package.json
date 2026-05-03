@@ -15,7 +15,7 @@
   },
   "license": "ISC",
   "author": "Dennis Woodbridge",
-  "type": "module",
+  "type": "commonjs",
   "main": "main.js",
   "scripts": {
     "start": "node main.js",

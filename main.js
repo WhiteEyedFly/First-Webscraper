@@ -1,1 +1,24 @@
-console.log("Hello world")
+//import {crawlPage} from './crawl.js';
+//import { createRequire } from "module";
+//const require = createRequire(import.meta.url);
+
+const {crawlPage} = require('./crawl.js')
+
+function main(){
+    // run with npm start "website name"
+    // process.argv has args: programme name (node), the code name (main.js), the provided input arguments
+    if (process.argv.length < 3){
+        console.log("no website provided")
+        process.exit(1)
+    }
+    if (process.argv.length > 3){
+        console.log("too many command line args")
+        process.exit(1)
+    }
+    const baseURL = process.argv[2]
+
+    console.log(`starting crawl of ${baseURL}`)
+    crawlPage(baseURL)
+}
+
+main()
