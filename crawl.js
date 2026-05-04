@@ -1,5 +1,7 @@
 const {JSDOM} = require('jsdom')
 
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
 async function crawlPage(baseURL, currentURL, pages){
     // Ensuring we stay in the hostname
     const baseURLObj = new URL(baseURL)
@@ -31,7 +33,7 @@ async function crawlPage(baseURL, currentURL, pages){
         // If non-html, return
         const contentType = resp.headers.get("content-type")
         if (!contentType.includes("text/html")){
-            console.log(`non-html response, content type: ${contentType} on page: ${currentURL}`)
+            //console.log(`non-html response, content type: ${contentType} on page: ${currentURL}`)
             return pages
         }
 
@@ -39,6 +41,7 @@ async function crawlPage(baseURL, currentURL, pages){
         const nextURLs = getURLsFromHTML(htmlBody, baseURL)
 
         for (const nextURL of nextURLs){
+            delay(100000);
             pages = await crawlPage(baseURL, nextURL, pages)
         }
     } catch (err){console.log(err.message)}
@@ -62,7 +65,7 @@ function getURLsFromHTML(htmlBody, baseURL){
                 const urlObj = new URL(`${baseURL}${linkElement.href}`)
                 urls.push(urlObj.href)
             } catch(err){
-                console.log(`error with relative url: ${err.message}`)
+                //console.log(`error with relative url: ${err.message}`)
             }
             
         } else {
@@ -71,7 +74,8 @@ function getURLsFromHTML(htmlBody, baseURL){
                 const urlObj = new URL(linkElement.href)
                 urls.push(urlObj.href)
             } catch(err){
-                console.log(`error with relative url: ${err.message}`)}
+                //console.log(`error with relative url: ${err.message}`)
+                }
         }
     }
 
@@ -98,5 +102,4 @@ function normaliseURL(urlString)
 module.exports = {
     normaliseURL,
     getURLsFromHTML,
-    crawlPage
-}
+    crawlPage}
